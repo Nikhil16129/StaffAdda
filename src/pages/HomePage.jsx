@@ -9,7 +9,7 @@ const highImpactRoles = [
   {
     title: 'Senior Frontend Developer',
     company: 'PixelPerfect Solutions',
-    location: 'San Francisco',
+    location: 'Delhi',
     salary: '₹1.2 Lakh - ₹1.5 Lakh',
     badge: 'NEW POSTING',
     badgeClass: 'text-blue-600 bg-blue-50/80',
@@ -23,7 +23,7 @@ const highImpactRoles = [
   {
     title: 'UX/UI Architect',
     company: 'Creative Flow Studios',
-    location: 'Berlin',
+    location: 'Kolkata',
     salary: '₹90,000 - ₹1.3 Lakh',
     badge: 'HYBRID',
     badgeClass: 'text-slate-500 bg-slate-100/80',
@@ -37,7 +37,7 @@ const highImpactRoles = [
   {
     title: 'Product Lead (AI)',
     company: 'GrowthSpark AI',
-    location: 'Tokyo',
+    location: 'Ahmedabad',
     salary: '₹1.5 Lakh - ₹2 Lakh',
     badge: 'URGENT',
     badgeClass: 'text-teal-600 bg-teal-50/80',
@@ -450,30 +450,30 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                {/* Card 3: 1 Candidates */}
+                {/* Card 3: 10,000+ Candidates Registered */}
                 <div className="bg-white p-4 xs:p-6 lg:p-8 rounded-[24px] border border-slate-100/80 shadow-md shadow-slate-100/50 text-center flex flex-col items-center justify-center min-h-[160px] hover:shadow-lg transition-shadow duration-300">
-                  <span className="text-3xl xs:text-4xl lg:text-5xl font-black text-[#1e3a8a] tracking-tight block mb-2">1</span>
+                  <span className="text-3xl xs:text-4xl lg:text-5xl font-black text-[#1e3a8a] tracking-tight block mb-2">10,000+</span>
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                    Candidates
+                    Candidates Registered
                   </span>
                 </div>
               </div>
 
               {/* Right Column of cards (staggered down) */}
               <div className="space-y-4 sm:space-y-6 pt-6 sm:pt-10">
-                {/* Card 2: 12 Enterprises */}
+                {/* Card 2: 100+ Employers Served */}
                 <div className="bg-white p-4 xs:p-6 lg:p-8 rounded-[24px] border border-slate-100/80 shadow-md shadow-slate-100/50 text-center flex flex-col items-center justify-center min-h-[160px] hover:shadow-lg transition-shadow duration-300">
-                  <span className="text-3xl xs:text-4xl lg:text-5xl font-black text-[#7c3aed] tracking-tight block mb-2">12</span>
+                  <span className="text-3xl xs:text-4xl lg:text-5xl font-black text-[#7c3aed] tracking-tight block mb-2">100+</span>
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                    Enterprises
+                    Employers Served
                   </span>
                 </div>
 
-                {/* Card 4: 8 Placements */}
+                {/* Card 4: 500+ Positions Closed */}
                 <div className="bg-white p-4 xs:p-6 lg:p-8 rounded-[24px] border border-slate-100/80 shadow-md shadow-slate-100/50 text-center flex flex-col items-center justify-center min-h-[160px] hover:shadow-lg transition-shadow duration-300">
-                  <span className="text-3xl xs:text-4xl lg:text-5xl font-black text-[#0d9488] tracking-tight block mb-2">8</span>
+                  <span className="text-3xl xs:text-4xl lg:text-5xl font-black text-[#0d9488] tracking-tight block mb-2">500+</span>
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                    Placements
+                    Positions Closed
                   </span>
                 </div>
               </div>

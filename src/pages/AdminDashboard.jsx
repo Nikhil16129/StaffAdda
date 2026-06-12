@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  LayoutDashboard, Users, Building2, Briefcase, Settings, LogOut,
+  LayoutDashboard, Users, Building2, Briefcase, LogOut,
   HelpCircle, Trash2, Bell, Menu, X, ChevronRight, Check, FileText
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,7 +12,7 @@ const NAV = [
   { icon: Users,           label: 'Job Seekers', path: '/admin/seekers' },
   { icon: Building2,       label: 'Employers',   path: '/admin/employers' },
   { icon: Briefcase,       label: 'Posted Jobs', path: '/admin/jobs' },
-  { icon: Settings,        label: 'Settings',    path: '/admin/settings' },
+  { icon: HelpCircle,      label: 'Enquiries',   path: '/admin/enquiries' },
 ];
 
 export default function AdminDashboard() {
@@ -26,6 +26,7 @@ export default function AdminDashboard() {
   const [employers, setEmployers] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [appsCount, setAppsCount] = useState(0);
+  const [enquiries, setEnquiries] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [actionSuccess, setActionSuccess] = useState('');
@@ -59,6 +60,25 @@ export default function AdminDashboard() {
         .select('*', { count: 'exact', head: true });
       if (appsErr) throw appsErr;
       setAppsCount(count || 0);
+
+      // 4. Fetch contact messages (enquiries)
+      let dbMsgs = [];
+      try {
+        const { data, error } = await supabase
+          .from('contact_messages')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (!error && data) {
+          dbMsgs = data;
+        }
+      } catch (err) {
+        console.warn('Failed to fetch from Supabase table contact_messages:', err);
+      }
+
+      // Load from local storage
+      const localMsgs = JSON.parse(localStorage.getItem('contact_messages') || '[]');
+      const merged = [...dbMsgs, ...localMsgs].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      setEnquiries(merged);
 
     } catch (e) {
       console.error('Admin fetch error:', e);
@@ -107,6 +127,33 @@ export default function AdminDashboard() {
       if (error) throw error;
 
       setActionSuccess(`Successfully deleted job: "${jobTitle}"`);
+      fetchAllData();
+      setTimeout(() => setActionSuccess(''), 4000);
+    } catch (err) {
+      alert(`Deletion failed: ${err.message}`);
+    }
+  };
+
+  // Delete Enquiry Handler
+  const handleDeleteEnquiry = async (msgId) => {
+    const confirmation = window.confirm('Are you sure you want to permanently delete this contact message?');
+    if (!confirmation) return;
+
+    setActionSuccess('');
+    try {
+      if (typeof msgId === 'string' && !msgId.startsWith('local_')) {
+        const { error } = await supabase
+          .from('contact_messages')
+          .delete()
+          .eq('id', msgId);
+        if (error) throw error;
+      }
+      
+      const localMsgs = JSON.parse(localStorage.getItem('contact_messages') || '[]');
+      const filtered = localMsgs.filter(m => m.id !== msgId && m.created_at !== msgId);
+      localStorage.setItem('contact_messages', JSON.stringify(filtered));
+
+      setActionSuccess('Enquiry deleted successfully.');
       fetchAllData();
       setTimeout(() => setActionSuccess(''), 4000);
     } catch (err) {
@@ -191,14 +238,14 @@ export default function AdminDashboard() {
               {activeNav === '/admin/seekers' && 'Job Seekers Register'}
               {activeNav === '/admin/employers' && 'Employers Directory'}
               {activeNav === '/admin/jobs' && 'Active Vacancies'}
-              {activeNav === '/admin/settings' && 'Admin Credentials'}
+              {activeNav === '/admin/enquiries' && 'Contact Enquiries'}
             </h1>
             <p className="text-gray-400 text-sm mt-1 font-medium">
               {activeNav === '/admin/dashboard' && 'Review live metrics and ecosystem stats.'}
               {activeNav === '/admin/seekers' && 'Monitor registered candidates and delete inactive profiles.'}
               {activeNav === '/admin/employers' && 'Inspect enterprise profiles and cancel system accounts.'}
               {activeNav === '/admin/jobs' && 'Manage job listings and clean up stale postings.'}
-              {activeNav === '/admin/settings' && 'Configure systems control credentials.'}
+              {activeNav === '/admin/enquiries' && 'View messages sent by visitors via the Contact Us form.'}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -503,47 +550,56 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* ── SETTINGS VIEW ── */}
-        {!loading && activeNav === '/admin/settings' && (
-          <div className="card p-6 sm:p-8 bg-white max-w-md shadow-md border-gray-100 rounded-[28px] space-y-6">
-            <h3 className="text-sm font-black text-blue-600 uppercase tracking-wider pb-2 border-b border-gray-100 flex items-center gap-2">
-              <Shield size={16} /> Systems Security
-            </h3>
-
-            <div className="space-y-4">
-              <div>
-                <span className="block text-xs font-bold text-gray-400 uppercase">Registered Admin Email</span>
-                <span className="text-sm font-semibold text-gray-800 flex items-center gap-1.5 mt-1">
-                  <Mail size={14} className="text-gray-400" /> {user?.email}
-                </span>
-              </div>
-
-              <div>
-                <span className="block text-xs font-bold text-gray-400 uppercase">Account Authorization</span>
-                <span className="text-xs font-black tracking-wide text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase inline-block mt-1">
-                  SYSTEM SUPER ADMIN
-                </span>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-gray-100">
-              <button 
-                onClick={async () => {
-                  try {
-                    const { error } = await supabase.auth.resetPasswordForEmail(user.email);
-                    if (error) throw error;
-                    alert('Password reset link sent to ' + user.email);
-                  } catch (e) {
-                    alert('Failed to send reset link: ' + e.message);
-                  }
-                }}
-                className="w-full py-3 border border-blue-200 text-blue-600 font-bold rounded-2xl text-xs hover:bg-blue-50/40 transition-all flex items-center justify-center gap-2"
-              >
-                <Lock size={14} /> Send Password Reset Email
-              </button>
+        {/* ── ENQUIRIES TAB ── */}
+        {!loading && activeNav === '/admin/enquiries' && (
+          <div className="card bg-white shadow-sm border border-gray-100 rounded-[24px] overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-100">
+                    {['SUBMITTER', 'SUBJECT', 'MESSAGE', 'DATE', 'ACTIONS'].map(c => (
+                      <th key={c} className="text-left px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-wider">{c}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {enquiries.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-12 text-sm text-gray-400">No enquiries found.</td>
+                    </tr>
+                  ) : (
+                    enquiries.map(enq => (
+                      <tr key={enq.id || enq.created_at} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="px-6 py-4">
+                          <p className="font-bold text-gray-900 text-sm">{enq.name}</p>
+                          <span className="text-[10px] font-semibold text-gray-500">{enq.email}</span>
+                        </td>
+                        <td className="px-6 py-4 text-xs font-semibold text-gray-700">
+                          {enq.subject}
+                        </td>
+                        <td className="px-6 py-4 text-xs text-gray-600 max-w-[300px] whitespace-pre-wrap">
+                          {enq.message}
+                        </td>
+                        <td className="px-6 py-4 text-xs font-medium text-gray-400">
+                          {new Date(enq.created_at).toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4">
+                          <button
+                            onClick={() => handleDeleteEnquiry(enq.id || enq.created_at)}
+                            className="p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-150 rounded-xl transition-all flex items-center gap-1.5 text-xs font-bold shadow-sm"
+                          >
+                            <Trash2 size={13} /> Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
+
       </main>
     </div>
   );

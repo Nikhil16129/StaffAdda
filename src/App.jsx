@@ -9,6 +9,10 @@ import EmployerDashboard from './pages/EmployerDashboard';
 import CompaniesPage from './pages/CompaniesPage';
 import ApplyJobPage from './pages/ApplyJobPage';
 import AdminDashboard from './pages/AdminDashboard';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
+import ContactPage from './pages/ContactPage';
+import AboutPage from './pages/AboutPage';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 
@@ -42,6 +46,10 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/jobs" element={<JobSearchPage />} />
           <Route path="/companies" element={<CompaniesPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route
             path="/apply/:jobId"
             element={

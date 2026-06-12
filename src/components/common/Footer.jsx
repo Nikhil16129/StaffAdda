@@ -1,87 +1,74 @@
-import { Link } from 'react-router-dom';
-import { Globe, Mail, Phone, Share2 } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Globe, Mail, MessageSquare } from 'lucide-react';
 
 export default function Footer() {
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
+
+  const getLinkClass = (path) => {
+    return isActive(path)
+      ? "text-sm text-blue-600 dark:text-blue-400 underline font-medium transition-colors"
+      : "text-sm text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors";
+  };
+
   return (
-    <footer className="bg-white border-t border-gray-100 pt-14 pb-8">
+    <footer className="bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 pt-14 pb-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
 
           {/* Brand col */}
           <div className="md:col-span-1">
-            <div className="flex items-center mb-4">
-              <div className="bg-white border border-slate-100 rounded-2xl p-2 shadow-sm max-w-[180px] flex items-center justify-center">
-                <img src="/logo-with-text.png" className="w-full h-auto object-contain" alt="StaffAdda Logo" />
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/80 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+                <img src="/logo-icon.png" className="w-7 h-7 object-contain" alt="StaffAdda Icon" />
               </div>
-            </div>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              Connecting the world's best talent with the most innovative companies on the planet.
+              <span className="font-bold text-base tracking-tight text-gray-900 dark:text-white">StaffAdda</span>
+            </Link>
+            <p className="text-sm text-gray-500 dark:text-slate-400 leading-relaxed font-medium">
+              StaffAdda is a premium recruitment platform connecting world-class talent with leading companies worldwide.
             </p>
           </div>
 
-          {/* Solutions */}
+          {/* Quick Links */}
           <div>
-            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">SOLUTIONS</h4>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">QUICK LINKS</h4>
             <ul className="space-y-2.5">
-              {['Browse Jobs', 'Top Companies', 'Salary Insights', 'Career Advice'].map(item => (
-                <li key={item}><Link to="#" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">{item}</Link></li>
-              ))}
+              <li><Link to="/jobs" className={getLinkClass('/jobs')}>Browse Jobs</Link></li>
+              <li><Link to="/companies" className={getLinkClass('/companies')}>Companies</Link></li>
+              <li><Link to="/about" className={getLinkClass('/about')}>About Us</Link></li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Support */}
           <div>
-            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">COMPANY</h4>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">SUPPORT</h4>
             <ul className="space-y-2.5">
-              {['About Us', 'Careers', 'Press', 'Resources'].map(item => (
-                <li key={item}><Link to="#" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">{item}</Link></li>
-              ))}
+              <li><Link to="/contact" className={getLinkClass('/contact')}>Contact Us</Link></li>
+              <li><Link to="/privacy" className={getLinkClass('/privacy')}>Privacy Policy</Link></li>
+              <li><Link to="/terms" className={getLinkClass('/terms')}>Terms of Service</Link></li>
+              <li><Link to="#" className={getLinkClass('#resources')}>Resources</Link></li>
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Stay Connected */}
           <div>
-            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">LEGAL</h4>
-            <ul className="space-y-2.5">
-              {['Privacy Policy', 'Terms of Service', 'Contact Us'].map(item => (
-                <li key={item}><Link to="#" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">{item}</Link></li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">NEWSLETTER</h4>
-            <p className="text-sm text-gray-500 mb-3">The best jobs, delivered weekly to your inbox.</p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Email address"
-                className="flex-1 px-3 py-2.5 text-sm border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-500 bg-gray-50"
-              />
-              <button className="btn-primary w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              </button>
+            <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">STAY CONNECTED</h4>
+            <div className="flex gap-3 mb-4">
+              <a href="#" className="w-8 h-8 rounded-full border border-gray-200 dark:border-slate-700 flex items-center justify-center text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-colors">
+                <Globe size={14} />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full border border-gray-200 dark:border-slate-700 flex items-center justify-center text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-colors">
+                <MessageSquare size={14} />
+              </a>
+              <a href="mailto:career@staffadda.in" className="w-8 h-8 rounded-full border border-gray-200 dark:border-slate-700 flex items-center justify-center text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500 transition-colors">
+                <Mail size={14} />
+              </a>
             </div>
+            <p className="text-sm text-gray-500 dark:text-slate-400 leading-relaxed font-medium">
+              © 2024 StaffAdda. Premium<br />Recruitment Solutions.
+            </p>
           </div>
-        </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-gray-100 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-gray-400">© 2024 StaffAdda. All rights reserved.</p>
-          <div className="flex gap-3">
-            <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-300 transition-colors">
-              <Globe size={14} />
-            </button>
-            <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-300 transition-colors">
-              <Mail size={14} />
-            </button>
-            <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-300 transition-colors">
-              <Share2 size={14} />
-            </button>
-          </div>
         </div>
       </div>
     </footer>
