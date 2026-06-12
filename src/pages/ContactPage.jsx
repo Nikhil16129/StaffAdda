@@ -116,7 +116,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h3 className="font-bold text-gray-900 text-sm mb-0.5">Phone Support</h3>
-                <p className="text-sm font-semibold text-gray-700">7808009991</p>
+                <a href="tel:7808009991" className="text-sm font-semibold text-gray-700 hover:text-emerald-600 transition-colors block">7808009991</a>
                 <p className="text-[11px] text-gray-400 font-medium mt-0.5">Mon-Fri, 9:00 AM - 6:00 PM IST</p>
               </div>
             </div>

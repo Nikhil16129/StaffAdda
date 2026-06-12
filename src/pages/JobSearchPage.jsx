@@ -428,7 +428,7 @@ export default function JobSearchPage() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <a 
-                      href={`tel:${applyModal.phone || '+919876543210'}`}
+                      href="tel:7808009991"
                       className="py-3 bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/20 text-blue-600 hover:text-blue-700 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]"
                     >
                       <Phone size={14} className="stroke-[2.5]" />

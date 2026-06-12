@@ -73,10 +73,13 @@ export default function JobCard({ job, onApply, applied }) {
             Apply Now
           </button>
         )}
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold hover:bg-blue-100 transition-colors">
+        <a
+          href="tel:7808009991"
+          className="flex items-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold hover:bg-blue-100 transition-colors"
+        >
           <Phone size={14} />
           Call
-        </button>
+        </a>
       </div>
     </div>
   );

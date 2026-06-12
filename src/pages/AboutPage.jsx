@@ -121,7 +121,7 @@ export default function AboutPage() {
               </h2>
             </div>
             <p className="text-sm text-gray-500 font-medium leading-relaxed">
-              Founded in 2020, StaffAdda emerged from a simple observation: the traditional recruitment
+              Founded in 2022, StaffAdda emerged from a simple observation: the traditional recruitment
               process was fragmented and impersonal. We set out to build a platform that prioritizes
               human connection alongside data-driven matching.
             </p>
