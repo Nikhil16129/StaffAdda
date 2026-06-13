@@ -48,24 +48,6 @@ export default function LoginPage() {
       {/* Card */}
       <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 w-full max-w-md" style={{ marginTop: 12 }}>
 
-        {/* Social buttons */}
-        <div className="grid grid-cols-1 mb-6">
-          <button type="button" className="flex items-center justify-center gap-2.5 border border-gray-200 rounded-2xl py-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors w-full">
-            {/* Google G */}
-            <div className="w-5 h-5 rounded flex items-center justify-center bg-[#e5e7eb]">
-              <span className="text-[#555] text-[10px] font-bold">G</span>
-            </div>
-            Google
-          </button>
-        </div>
-
-        {/* Divider */}
-        <div className="flex items-center gap-3 mb-5">
-          <hr className="flex-1 border-gray-200" />
-          <span className="text-xs text-gray-400">or login with email</span>
-          <hr className="flex-1 border-gray-200" />
-        </div>
-
         {error && (
           <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">
             {error}
@@ -75,12 +57,12 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Work Email</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
             <div className="relative">
               <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="email"
-                placeholder="name@company.com"
+                placeholder="email@example.com"
                 value={form.email}
                 onChange={e => setForm({ ...form, email: e.target.value })}
                 required
@@ -93,7 +75,7 @@ export default function LoginPage() {
           <div>
             <div className="flex justify-between items-center mb-1.5">
               <label className="text-sm font-semibold text-gray-700">Password</label>
-              <Link to="#" className="text-xs font-semibold text-blue-600 hover:underline">Forgot Password?</Link>
+              <Link to="/forgot-password" className="text-xs font-semibold text-blue-600 hover:underline">Forgot Password?</Link>
             </div>
             <div className="relative">
               <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
