@@ -102,14 +102,18 @@ export default function RegisterPage() {
           state: jobSeekerForm.state,
           qualification: jobSeekerForm.qualification,
         };
-        await register(
+        const result = await register(
           jobSeekerForm.name, 
           jobSeekerForm.email, 
           jobSeekerForm.password, 
           'jobseeker', 
           extraFields
         );
-        navigate('/dashboard');
+        if (result && !result.session) {
+          navigate('/login', { state: { successMessage: 'Registration successful! Please check your email to confirm your account before logging in.' } });
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         const extraFields = {
           organisationName: employerForm.organisationName,
@@ -118,14 +122,18 @@ export default function RegisterPage() {
           idNumber: employerForm.idNumber,
           mobile: employerForm.mobile,
         };
-        await register(
+        const result = await register(
           employerForm.organisationName, 
           employerForm.email, 
           employerForm.password, 
           'employer', 
           extraFields
         );
-        navigate('/employer/dashboard');
+        if (result && !result.session) {
+          navigate('/login', { state: { successMessage: 'Registration successful! Please check your email to confirm your account before logging in.' } });
+        } else {
+          navigate('/employer/dashboard');
+        }
       }
     } catch (err) {
       setError('Registration failed. Please try again.');

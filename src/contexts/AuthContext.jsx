@@ -167,7 +167,7 @@ export function AuthProvider({ children }) {
         ...extraFields,
       };
 
-      return userData;
+      return { user: userData, session: data.session };
     } catch (err) {
       console.error('Registration failed:', err);
       throw err;

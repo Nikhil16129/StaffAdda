@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, Shield, Cloud } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function LoginPage() {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({ email: '', password: '', remember: false });
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState('');
+  const successMessage = location.state?.successMessage;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +49,12 @@ export default function LoginPage() {
 
       {/* Card */}
       <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 w-full max-w-md" style={{ marginTop: 12 }}>
+
+        {successMessage && !error && (
+          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl text-sm text-green-600 font-medium">
+            {successMessage}
+          </div>
+        )}
 
         {error && (
           <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600">
